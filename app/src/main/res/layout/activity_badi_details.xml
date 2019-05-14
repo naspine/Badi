@@ -11,19 +11,20 @@
         android:layout_height="match_parent"
         android:layout_gravity="center"
         android:visibility="gone" />
+
     <ListView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:id="@+id/becken_infos">
     </ListView>
 
-        <Button
-            android:id="@+id/button1"
-            android:textSize="20sp"
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:text="Mehr Infos"
-            />
+    <Button
+        android:id="@+id/button1"
+        android:textSize="20sp"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="Mehr Infos"
+        />
 
 
 </LinearLayout>

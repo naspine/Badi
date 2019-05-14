@@ -64,8 +64,8 @@ public class BadiDetailsActivity extends AppCompatActivity {
             try {
                 Badi badi = WieWarmJsonParser.createBadiFromJsonString(response);
                 beckenInfosAdapter.addAll(badi.getBecken());
-               // ListView badiInfoList = findViewById(R.id.becken_infos);
-                //badiInfoList.setAdapter(beckenInfosAdapter);
+                ListView badiInfoList = findViewById(R.id.becken_infos);
+                badiInfoList.setAdapter(beckenInfosAdapter);
                 progressBar.setVisibility(View.GONE);
             }
             catch (JSONException e)
