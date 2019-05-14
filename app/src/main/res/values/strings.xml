@@ -1,3 +1,39 @@
 <resources>
     <string name="app_name">BadiApp</string>
+    <string-array name="Kantone">
+        <item>Kanton wählen</item>
+        <item>Aargau</item>
+        <item>Appenzell Ausserrhoden</item>
+        <item>Appenzell Innerrhoden</item>
+        <item>Basel-Landschaft</item>
+        <item>Basel-Stadt</item>
+        <item>Bern</item>
+        <item>Freiburg</item>
+        <item>Genf</item>
+        <item>Glarus</item>
+        <item>Graubünden</item>
+        <item>Jura</item>
+        <item>Luzern</item>
+        <item>Neuenburg</item>
+        <item>Nidwalden</item>
+        <item>Obwalden</item>
+        <item>Schaffhausen</item>
+        <item>Schwyz</item>
+        <item>Soloturn</item>
+        <item>St. Gallen</item>
+        <item>Tessin</item>
+        <item>Thurgau</item>
+        <item>Uri</item>
+        <item>Waadt</item>
+        <item>Wallis</item>
+        <item>Zürich</item>
+        <item>Zug</item>
+    </string-array>
+    <string-array name="Ort">
+        <item>Ort     wählen</item>
+
+    </string-array>
+    <string-array name="Badiname">
+        <item>Name wählen</item>
+    </string-array>
 </resources>

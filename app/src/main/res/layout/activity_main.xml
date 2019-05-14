@@ -5,22 +5,47 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageView
+    <EditText
+        android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/badilogo"
-        android:src="@drawable/pool"
-        android:adjustViewBounds="true"/>
-    <ListView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/badiliste">
-    </ListView>
-    <Button
-        android:id="@+id/button1"
+        android:ems="10"
+        android:inputType="textPersonName"
         android:textSize="20sp"
-        android:layout_width="fill_parent"
+
+        android:text="Bädälä" />
+
+    <LinearLayout
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <Spinner
+        android:id="@+id/kantone"
+        android:layout_width="137dp"
         android:layout_height="wrap_content"
-        android:text=""
+
+    />
+    <Spinner
+        android:id="@+id/ort"
+        android:layout_width="137dp"
+        android:layout_height="wrap_content"
+         />
+
+    <Spinner
+        android:id="@+id/Badiname"
+        android:layout_width="137dp"
+        android:layout_height="wrap_content"
+
         />
+</LinearLayout>
+
+    <ListView
+        android:id="@+id/badiliste"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        ></ListView>
+
+
+
 </LinearLayout>
