@@ -20,6 +20,22 @@
         android:adjustViewBounds="true"/>
 
     <TextView
+        android:id="@+id/oeffnungzeit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:text="Öffnungszeiten"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Hallkajdlfkjalksjdflkajdflajfdlk"/>
+    <TextView
+        android:id="@+id/preis"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:text="Preis"/>
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Hallkajdlfkjalksjdflkajdflajfdlk"/>

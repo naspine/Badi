@@ -30,6 +30,7 @@ import org.json.JSONException;
 
 public class BadiDetailsActivity extends AppCompatActivity {
     private int badiId;
+    private String badiName;
     private ProgressBar progressBar;
     private Button button;
     private static final String WIE_WARM_API_URL = "https://www.wiewarm.ch/api/v1/bad.json/";
@@ -44,8 +45,10 @@ public class BadiDetailsActivity extends AppCompatActivity {
         progressBar = findViewById(R.id.loading_badi_details_progress);
         Intent intent = getIntent();
         badiId = intent.getIntExtra("badiId", 0);
-        String name = intent.getStringExtra("badiName");
-        setTitle(name); progressBar.setVisibility(View.VISIBLE);
+        badiName = intent.getStringExtra("badiName");
+        final String name = intent.getStringExtra("badiName");
+        setTitle(name);
+        progressBar.setVisibility(View.VISIBLE);
         getBadiTemp(WIE_WARM_API_URL + badiId);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -54,7 +57,8 @@ public class BadiDetailsActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), BadiMoreDetailsActivity.class);
-
+                intent.putExtra("badiId", badiId );
+                intent.putExtra("badiId", badiName);
                 startActivity(intent);
             }
         });

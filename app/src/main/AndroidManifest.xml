@@ -19,7 +19,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".BadiDetailsActivity" />
-        <activity android:name=".BadiMoreDetailsActivity"></activity>
+        <activity android:name=".BadiMoreDetailsActivity" />
+        <activity android:name=".MapsActivity"></activity>
     </application>
 
 </manifest>
