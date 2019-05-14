@@ -25,4 +25,8 @@ public class Becken {
         temperature = temperatur;
     }
 
+    public double getTemperature() {
+        return temperature;
+    }
+
 }

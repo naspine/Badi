@@ -9,6 +9,8 @@ public class Badi {
     private List<Becken> becken = new ArrayList<>();
     private String kanton;
     private String ort;
+    private String preis;
+    private String zeiten;
 
     public Badi(int id, String Name, String ort, String kanton) {
         setId(id);
@@ -39,7 +41,7 @@ public class Badi {
 
     @Override
     public String toString() {
-        return this.name + ", " +this.ort +" (" + this.kanton +")";
+        return this.name + ", " +this.ort +" (" + this.kanton +")" +this.preis + this.zeiten;
     }
 
     public List<Becken> getBecken() {
@@ -68,5 +70,21 @@ public class Badi {
 
     public void addBecken(Becken beck) {
         becken.add(beck);
+    }
+
+    public String getPreis() {
+        return preis;
+    }
+
+    public void setPreis(String preis) {
+        this.preis = "Halllllllllllllllllllllllllllllllllllllo";
+    }
+
+    public void setZeiten(String zeiten) {
+        this.zeiten = "adökfljfakj";
+    }
+
+    public String getZeiten() {
+        return zeiten;
     }
 }

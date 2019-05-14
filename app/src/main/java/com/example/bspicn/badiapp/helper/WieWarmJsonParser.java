@@ -18,6 +18,16 @@ public class WieWarmJsonParser {
         badi.setName(jsonObj.getString("badname"));
         badi.setKanton(jsonObj.getString("kanton"));
         badi.setOrt(jsonObj.getString("ort"));
+        badi.setZeiten(jsonObj.getString("zeiten"));
+        System.out.println(jsonObj.getString("zeiten"));
+        System.out.println(jsonObj.getString("preise"));
+        Preis preis = new Preis();
+        Oeffnungszeit oeffnungszeit = new Oeffnungszeit();
+        preis.setPreis(jsonObj.getString("preise"));
+        oeffnungszeit.setOeffnungszeit(jsonObj.getString("zeiten"));
+
+
+
         JSONObject beckenJson = jsonObj.getJSONObject("becken");
         Iterator keys = beckenJson.keys();
         while (keys.hasNext()) {
@@ -26,7 +36,6 @@ public class WieWarmJsonParser {
             JSONObject subObj = beckenJson.getJSONObject(key);
             becken.setName(subObj.getString("beckenname"));
             becken.setTemperature(Double.parseDouble(subObj.getString("temp")));
-
             badi.addBecken(becken);
 
         } return badi;
