@@ -18,7 +18,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".BadiDetailsActivity"></activity>
+        <activity android:name=".BadiDetailsActivity" />
+        <activity android:name=".BadiMoreDetailsActivity" />
+        <activity android:name=".MapsActivity"></activity>
     </application>
 
 </manifest>

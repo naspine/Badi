@@ -20,18 +20,30 @@ import com.example.bspicn.badiapp.model.Badi;
 
 
 public class MainActivity extends AppCompatActivity {
+    Button button2;
+    Button button3;
+
     ListView badis;
     private static final String WIE_WARM_API_URL = "https://www.wiewarm.ch/api/v1/bad.json/";
-    Button button;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        button = (Button) findViewById(R.id.button1);
+        button3 = findViewById(R.id.button3);
+        button2 = findViewById(R.id.button2);
         setTitle("Übersicht");
         addBadisToClickableList();
 
+        button3.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), MapsActivity.class);
+                button2.setClickable(true);
+                button3.setClickable(false);
+                startActivity(intent);
+            }
+        });
     }
 
     private void addBadisToClickableList(){
@@ -50,9 +62,9 @@ public class MainActivity extends AppCompatActivity {
                 Badi selected = (Badi)parent.getItemAtPosition(position);
                 intent.putExtra("badiId", selected.getId());
                 intent.putExtra("badiName", selected.getName());
-        startActivity(intent); } };
+        startActivity(intent);
+            } };
         badis.setOnItemClickListener(mListClickedHandler);
-
     }
 
     private String spinnerKanton(){
