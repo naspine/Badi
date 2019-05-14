@@ -51,19 +51,27 @@ public class BadiDetailsActivity extends AppCompatActivity {
         if (actionBar != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
+        button.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), BadiMoreDetailsActivity.class);
+
+                startActivity(intent);
+            }
+        });
 
     }
 
-    private void getBadiTemp(String url) { final ArrayAdapter<Becken> beckenInfosAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1);
-    RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
-    StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>()
-    {
+    private void getBadiTemp(String url) {
+        final ArrayAdapter<Becken> beckenInfosAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1);
+        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
         @Override
         public void onResponse(String response)
         {
             try {
                 Badi badi = WieWarmJsonParser.createBadiFromJsonString(response);
                 beckenInfosAdapter.addAll(badi.getBecken());
+                System.out.println(beckenInfosAdapter);
                 ListView badiInfoList = findViewById(R.id.becken_infos);
                 badiInfoList.setAdapter(beckenInfosAdapter);
                 progressBar.setVisibility(View.GONE);

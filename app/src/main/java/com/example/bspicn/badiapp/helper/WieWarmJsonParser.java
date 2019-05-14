@@ -6,6 +6,8 @@ import java.util.Iterator;
 
 import com.example.bspicn.badiapp.model.Badi;
 import com.example.bspicn.badiapp.model.Becken;
+import com.example.bspicn.badiapp.model.Preis;
+import com.example.bspicn.badiapp.model.Oeffnungszeit;
 
 public class WieWarmJsonParser {
     public static Badi createBadiFromJsonString(String badiJsonString) throws JSONException {

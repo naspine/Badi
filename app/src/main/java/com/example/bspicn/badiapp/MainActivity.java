@@ -8,7 +8,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
 
 import com.example.bspicn.badiapp.dal.BadiDao;
@@ -43,7 +42,8 @@ public class MainActivity extends AppCompatActivity {
                 Badi selected = (Badi)parent.getItemAtPosition(position);
                 intent.putExtra("badiId", selected.getId());
                 intent.putExtra("badiName", selected.getName());
-        startActivity(intent); } };
+        startActivity(intent);
+            } };
         badis.setOnItemClickListener(mListClickedHandler);
     }
 }
