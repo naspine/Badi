@@ -16,18 +16,14 @@
         android:layout_height="match_parent"
         android:id="@+id/becken_infos">
     </ListView>
-    <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+
         <Button
             android:id="@+id/button1"
             android:textSize="20sp"
             android:layout_width="match_parent"
             android:layout_height="100dp"
-            android:text=""
+            android:text="Mehr Infos"
             />
-    </LinearLayout>
+
 
 </LinearLayout>

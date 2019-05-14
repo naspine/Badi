@@ -17,13 +17,13 @@ import com.example.bspicn.badiapp.model.Badi;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button button;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-       // button = (Button) findViewById(R.id.button1);
+
         setTitle("Übersicht");
         addBadisToClickableList();
     }

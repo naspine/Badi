@@ -31,13 +31,16 @@ import org.json.JSONException;
 public class BadiDetailsActivity extends AppCompatActivity {
     private int badiId;
     private ProgressBar progressBar;
+    private Button button;
     private static final String WIE_WARM_API_URL = "https://www.wiewarm.ch/api/v1/bad.json/";
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_badi_details);
+        button = findViewById(R.id.button1);
         progressBar = findViewById(R.id.loading_badi_details_progress);
         Intent intent = getIntent();
         badiId = intent.getIntExtra("badiId", 0);
@@ -61,8 +64,8 @@ public class BadiDetailsActivity extends AppCompatActivity {
             try {
                 Badi badi = WieWarmJsonParser.createBadiFromJsonString(response);
                 beckenInfosAdapter.addAll(badi.getBecken());
-                ListView badiInfoList = findViewById(R.id.becken_infos);
-                badiInfoList.setAdapter(beckenInfosAdapter);
+               // ListView badiInfoList = findViewById(R.id.becken_infos);
+                //badiInfoList.setAdapter(beckenInfosAdapter);
                 progressBar.setVisibility(View.GONE);
             }
             catch (JSONException e)
