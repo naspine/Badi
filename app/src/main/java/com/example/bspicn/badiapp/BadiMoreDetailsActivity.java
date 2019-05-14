@@ -23,6 +23,8 @@ import com.android.volley.toolbox.Volley;
 import com.example.bspicn.badiapp.helper.WieWarmJsonParser;
 import com.example.bspicn.badiapp.model.Badi;
 import com.example.bspicn.badiapp.model.Becken;
+import com.example.bspicn.badiapp.model.Oeffnungszeit;
+import com.example.bspicn.badiapp.model.Preis;
 
 import org.json.JSONException;
 
@@ -59,7 +61,8 @@ public class BadiMoreDetailsActivity extends AppCompatActivity {
     }
 
     private void getBadiPreis(String url) {
-        final ArrayAdapter<Becken> beckenInfosAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1);
+        final ArrayAdapter<Oeffnungszeit> ZeitInfosAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1);
+        final ArrayAdapter<Preis> PreisInfosAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1);
         RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
@@ -67,10 +70,15 @@ public class BadiMoreDetailsActivity extends AppCompatActivity {
             {
                 try {
                     Badi badi = WieWarmJsonParser.createBadiFromJsonString(response);
-                    beckenInfosAdapter.addAll(badi.getBecken());
-                    System.out.println(beckenInfosAdapter);
-                    ListView badiInfoList = findViewById(R.id.oeffnungzeit);
-                    badiInfoList.setAdapter(beckenInfosAdapter);
+                    ZeitInfosAdapter.addAll(badi.getOeffnungszeit());
+                    System.out.println(ZeitInfosAdapter);
+                    ListView zeitInfoList = findViewById(R.id.oeffnungzeit);
+                    zeitInfoList.setAdapter(ZeitInfosAdapter);
+
+                    PreisInfosAdapter.addAll(badi.getPreis());
+                    System.out.println(PreisInfosAdapter);
+                    ListView preisInfoList = findViewById(R.id.preis);
+                    preisInfoList.setAdapter(PreisInfosAdapter);
                     progressBar.setVisibility(View.GONE);
                 }
                 catch (JSONException e)
@@ -97,7 +105,7 @@ public class BadiMoreDetailsActivity extends AppCompatActivity {
                 finish();
             }
         });
-        dialogBuilder.setMessage("Die Badidetails konnten nicht geladen werden. Versuche es später nochmals.").setTitle("Fehler");
+        dialogBuilder.setMessage("Die weiteren Badidetails konnten nicht geladen werden. Versuche es später nochmals.").setTitle("Fehler");
         AlertDialog dialog = dialogBuilder.create();
         dialog.show();
     }

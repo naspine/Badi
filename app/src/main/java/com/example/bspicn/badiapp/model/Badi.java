@@ -7,10 +7,10 @@ public class Badi {
     private int id;
     private String name;
     private List<Becken> becken = new ArrayList<>();
+    private List<Oeffnungszeit> oeffnungszeit = new ArrayList<>();
+    private List<Preis> preis = new ArrayList<>();
     private String kanton;
     private String ort;
-    private String preis;
-    private String zeiten;
 
     public Badi(int id, String Name, String ort, String kanton) {
         setId(id);
@@ -41,7 +41,7 @@ public class Badi {
 
     @Override
     public String toString() {
-        return this.name + ", " +this.ort +" (" + this.kanton +")" +this.preis + this.zeiten;
+        return this.name + ", " +this.ort +" (" + this.kanton +")";
     }
 
     public List<Becken> getBecken() {
@@ -49,7 +49,7 @@ public class Badi {
     }
 
     public void setBecken(List<Becken> becken) {
-        becken = becken;
+        this.becken = becken;
     }
 
     public void setId(int id) {
@@ -72,19 +72,27 @@ public class Badi {
         becken.add(beck);
     }
 
-    public String getPreis() {
+    public void setOeffnungszeit(List<Oeffnungszeit> oeffnungszeit) {
+        this.oeffnungszeit = oeffnungszeit;
+    }
+
+    public List<Oeffnungszeit> getOeffnungszeit() {
+        return oeffnungszeit;
+    }
+
+    public void addOeffnungszeit (Oeffnungszeit zeit){
+        oeffnungszeit.add(zeit);
+    }
+
+    public void setPreis(List<Preis> preis) {
+        this.preis = preis;
+    }
+
+    public List<Preis> getPreis() {
         return preis;
     }
 
-    public void setPreis(String preis) {
-        this.preis = "Halllllllllllllllllllllllllllllllllllllo";
-    }
-
-    public void setZeiten(String zeiten) {
-        this.zeiten = "adökfljfakj";
-    }
-
-    public String getZeiten() {
-        return zeiten;
+    public void addPreis(Preis preise){
+        preis.add(preise);
     }
 }

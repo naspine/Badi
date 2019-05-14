@@ -12,31 +12,33 @@ import com.example.bspicn.badiapp.model.Oeffnungszeit;
 public class WieWarmJsonParser {
     public static Badi createBadiFromJsonString(String badiJsonString) throws JSONException {
         Badi badi = new Badi();
+        Preis preis = new Preis();
+        Oeffnungszeit oeffnungszeit = new Oeffnungszeit();
 
         JSONObject jsonObj = new JSONObject(badiJsonString);
         badi.setId(Integer.parseInt(jsonObj.getString("badid")));
         badi.setName(jsonObj.getString("badname"));
         badi.setKanton(jsonObj.getString("kanton"));
         badi.setOrt(jsonObj.getString("ort"));
-        badi.setZeiten(jsonObj.getString("zeiten"));
-        System.out.println(jsonObj.getString("zeiten"));
-        System.out.println(jsonObj.getString("preise"));
-        Preis preis = new Preis();
-        Oeffnungszeit oeffnungszeit = new Oeffnungszeit();
-        preis.setPreis(jsonObj.getString("preise"));
-        oeffnungszeit.setOeffnungszeit(jsonObj.getString("zeiten"));
-
 
 
         JSONObject beckenJson = jsonObj.getJSONObject("becken");
         Iterator keys = beckenJson.keys();
+        oeffnungszeit.setOeffnungszeit(jsonObj.getString("zeiten"));
+        badi.addOeffnungszeit(oeffnungszeit);
+
+        preis.setPreis(jsonObj.getString("preise"));
+        badi.addPreis(preis);
         while (keys.hasNext()) {
+
             Becken becken = new Becken();
             String key = (String) keys.next();
             JSONObject subObj = beckenJson.getJSONObject(key);
             becken.setName(subObj.getString("beckenname"));
             becken.setTemperature(Double.parseDouble(subObj.getString("temp")));
             badi.addBecken(becken);
+
+
 
         } return badi;
     }

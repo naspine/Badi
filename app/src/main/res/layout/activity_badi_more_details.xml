@@ -35,10 +35,10 @@
         android:layout_height="wrap_content"
         android:textSize="18sp"
         android:text="Preis"/>
-    <TextView
-
+    <ListView
+        android:id="@+id/preis"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Hallkajdlfkjalksjdflkajdflajfdlk"/>
+        android:text=""/>
 
 </LinearLayout>
