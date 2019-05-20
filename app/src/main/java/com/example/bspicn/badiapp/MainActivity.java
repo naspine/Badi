@@ -22,6 +22,8 @@ import com.example.bspicn.badiapp.model.Badi;
 public class MainActivity extends AppCompatActivity {
     Button button2;
     Button button3;
+    private int badiId;
+    private String badiName;
 
     ListView badis;
     private static final String WIE_WARM_API_URL = "https://www.wiewarm.ch/api/v1/bad.json/";
@@ -35,6 +37,10 @@ public class MainActivity extends AppCompatActivity {
         button2 = findViewById(R.id.button2);
         setTitle("Übersicht");
         addBadisToClickableList();
+        Intent intent = getIntent();
+        badiId = intent.getIntExtra("badiId", 0);
+        badiName = intent.getStringExtra("badiName");
+
 
         button3.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v) {
@@ -51,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
         spinnerKanton();
         ArrayAdapter<Badi> badiAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1);
         badiAdapter.addAll(BadiDao.getAll());
+
         badis.setAdapter(badiAdapter);
 
         AdapterView.OnItemClickListener mListClickedHandler = new

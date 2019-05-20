@@ -25,6 +25,11 @@
         android:layout_height="50dp"
         android:text="Mehr Infos"
         />
+    <org.osmdroid.views.MapView
+        android:id="@+id/mapview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
 
 
 </LinearLayout>
