@@ -14,7 +14,7 @@ public class BadiMoreDetailsActivity extends AppCompatActivity {
     private String badiName;
     private ProgressBar progressBar;
 
-    private static final String WIE_WARM_API_URL = "https://www.wiewarm.ch/api/v1/bad.json/";
+    private static final String WIE_WARM_API_URL = "https://www.wiewarm.ch:443/api/v1/temperature/all_current.json/0";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

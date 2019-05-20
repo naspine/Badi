@@ -35,7 +35,6 @@ public class BadiDetailsActivity extends AppCompatActivity {
     private Button button;
     private static final String WIE_WARM_API_URL = "https://www.wiewarm.ch/api/v1/bad.json/";
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -75,7 +74,7 @@ public class BadiDetailsActivity extends AppCompatActivity {
             try {
                 Badi badi = WieWarmJsonParser.createBadiFromJsonString(response);
                 beckenInfosAdapter.addAll(badi.getBecken());
-                System.out.println(beckenInfosAdapter);
+                //System.out.println(beckenInfosAdapter);
                 ListView badiInfoList = findViewById(R.id.becken_infos);
                 badiInfoList.setAdapter(beckenInfosAdapter);
                 progressBar.setVisibility(View.GONE);

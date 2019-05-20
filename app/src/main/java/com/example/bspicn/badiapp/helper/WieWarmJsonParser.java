@@ -11,8 +11,8 @@ import com.example.bspicn.badiapp.model.Oeffnungszeit;
 
 public class WieWarmJsonParser {
     public static Badi createBadiFromJsonString(String badiJsonString) throws JSONException {
-        Badi badi = new Badi();
 
+        Badi badi = new Badi();
         JSONObject jsonObj = new JSONObject(badiJsonString);
         badi.setId(Integer.parseInt(jsonObj.getString("badid")));
         badi.setName(jsonObj.getString("badname"));
@@ -26,9 +26,8 @@ public class WieWarmJsonParser {
             JSONObject subObj = beckenJson.getJSONObject(key);
             becken.setName(subObj.getString("beckenname"));
             becken.setTemperature(Double.parseDouble(subObj.getString("temp")));
-
             badi.addBecken(becken);
-
-        } return badi;
+        }
+        return badi;
     }
 }
