@@ -9,12 +9,14 @@ import java.util.List;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Layout;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.Switch;
 
 import com.android.volley.toolbox.Volley;
 import com.example.bspicn.badiapp.dal.onBadiResponseListener;
@@ -29,6 +31,12 @@ public class MainActivity extends AppCompatActivity implements onBadiResponseLis
     Spinner kantoneSpinner;
     Button button2;
     Button button3;
+    private int badiId;
+    private String badiName;
+
+    ListView badis;
+    private static final String WIE_WARM_API_URL = "https://www.wiewarm.ch/api/v1/bad.json/";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +47,10 @@ public class MainActivity extends AppCompatActivity implements onBadiResponseLis
         button2 = findViewById(R.id.button2);
         setTitle("Übersicht");
         addBadisToClickableList();
+        Intent intent = getIntent();
+        badiId = intent.getIntExtra("badiId", 0);
+        badiName = intent.getStringExtra("badiName");
+
 
         button3.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v) {

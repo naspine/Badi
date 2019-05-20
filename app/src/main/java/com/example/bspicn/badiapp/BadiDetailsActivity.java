@@ -3,9 +3,14 @@ package com.example.bspicn.badiapp;
 
 
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Point;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -23,10 +28,26 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.bspicn.badiapp.helper.WieWarmJsonParser;
+import com.example.bspicn.badiapp.model.Adresse;
 import com.example.bspicn.badiapp.model.Badi;
 import com.example.bspicn.badiapp.model.Becken;
 
 import org.json.JSONException;
+import org.osmdroid.api.IMapController;
+import org.osmdroid.api.IMapView;
+import org.osmdroid.config.Configuration;
+import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
+import org.osmdroid.util.GeoPoint;
+import org.osmdroid.views.MapView;
+import org.osmdroid.views.overlay.ItemizedIconOverlay;
+import org.osmdroid.views.overlay.ItemizedOverlay;
+import org.osmdroid.views.overlay.ItemizedOverlayWithFocus;
+import org.osmdroid.views.overlay.Marker;
+import org.osmdroid.views.overlay.OverlayItem;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 public class BadiDetailsActivity extends AppCompatActivity {
     private int badiId;
@@ -34,12 +55,23 @@ public class BadiDetailsActivity extends AppCompatActivity {
     private ProgressBar progressBar;
     private Button button;
     private static final String WIE_WARM_API_URL = "https://www.wiewarm.ch/api/v1/bad.json/";
+    String test;
+    double latitude;
+    double longitude;
+    private MapView mapp;
+    private ItemizedOverlay overlay;
+
+    MapView map = null;
+
+    public BadiDetailsActivity() {
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_badi_details);
+
         button = findViewById(R.id.button1);
         progressBar = findViewById(R.id.loading_badi_details_progress);
         Intent intent = getIntent();
@@ -49,6 +81,8 @@ public class BadiDetailsActivity extends AppCompatActivity {
         setTitle(name);
         progressBar.setVisibility(View.VISIBLE);
         getBadiTemp(WIE_WARM_API_URL + badiId);
+
+
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -64,9 +98,64 @@ public class BadiDetailsActivity extends AppCompatActivity {
 
     }
 
+    private void Geocash(String adress){
+        Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+
+        try {
+            List<Address> addresses = geocoder.getFromLocationName(adress, 1);
+            Address address = addresses.get(0);
+            if (addresses.size() > 0) {
+                latitude = addresses.get(0).getLatitude();
+                longitude = addresses.get(0).getLongitude();
+                System.out.println(latitude);
+                System.out.println(longitude);
+            }
+            System.out.println("here1");
+        } catch (Exception e) {
+            System.out.println("here");
+        }
+         System.out.println(latitude);
+
+
+        Context ctx = getApplicationContext();
+        Configuration.getInstance().load(ctx, PreferenceManager.getDefaultSharedPreferences(ctx));
+        //inflate and create the map
+
+
+
+        map = (MapView) findViewById(R.id.mapview);
+        map.setTileSource(TileSourceFactory.MAPNIK);
+        map.setMultiTouchControls(true);
+        IMapController mapController = map.getController();
+        mapController.setZoom(15.5);
+        System.out.println(latitude);
+        System.out.println(longitude);
+        GeoPoint startPoint = new GeoPoint(latitude, longitude);
+        mapController.setCenter(startPoint);
+
+        //your items
+        ArrayList<OverlayItem> items = new ArrayList<OverlayItem>();
+        items.add(new OverlayItem(badiName, badiName, new GeoPoint(latitude, longitude ))); // Lat/Lon decimal degrees
+
+
+
+        Marker startMarker = new Marker(map);
+        startMarker.setPosition(startPoint);
+        startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+        map.getOverlays().add(startMarker);
+
+
+
+
+
+    }
+
     private void getBadiTemp(String url) {
+        final ArrayAdapter<Adresse> adressenInfosAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1);
         final ArrayAdapter<Becken> beckenInfosAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1);
         RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+
+
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
         @Override
         public void onResponse(String response)
@@ -78,6 +167,13 @@ public class BadiDetailsActivity extends AppCompatActivity {
                 ListView badiInfoList = findViewById(R.id.becken_infos);
                 badiInfoList.setAdapter(beckenInfosAdapter);
                 progressBar.setVisibility(View.GONE);
+
+                test = badi.getAdresses();
+
+                System.out.println(test);
+                Geocash(test);
+
+
             }
             catch (JSONException e)
             {
@@ -92,6 +188,8 @@ public class BadiDetailsActivity extends AppCompatActivity {
             }
         });
         queue.add(stringRequest);
+
+
     }
 
     private void generateAlertDialog() {
