@@ -6,7 +6,7 @@
     android:layout_height="match_parent">
 
     <ProgressBar
-        android:id="@+id/loading_badi_details_progress"
+        android:id="@+id/loading_badi_more_details_progress"
         android:layout_width="50dp"
         android:layout_height="match_parent"
         android:layout_gravity="center"
@@ -20,24 +20,25 @@
         android:adjustViewBounds="true"/>
 
     <TextView
-        android:id="@+id/oeffnungzeit"
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="18sp"
         android:text="Öffnungszeiten"/>
-    <TextView
+    <ListView
+        android:id="@+id/oeffnungzeit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Hallkajdlfkjalksjdflkajdflajfdlk"/>
+        />
     <TextView
-        android:id="@+id/preis"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="18sp"
         android:text="Preis"/>
-    <TextView
+    <ListView
+        android:id="@+id/preis"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Hallkajdlfkjalksjdflkajdflajfdlk"/>
+        android:text=""/>
 
 </LinearLayout>

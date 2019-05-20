@@ -7,6 +7,8 @@ public class Badi {
     private int id;
     private String name;
     private List<Becken> becken = new ArrayList<>();
+    private List<Oeffnungszeit> oeffnungszeit = new ArrayList<>();
+    private List<Preis> preis = new ArrayList<>();
     private String kanton;
     private String ort;
 
@@ -47,7 +49,7 @@ public class Badi {
     }
 
     public void setBecken(List<Becken> becken) {
-        becken = becken;
+        this.becken = becken;
     }
 
     public void setId(int id) {
@@ -68,5 +70,30 @@ public class Badi {
 
     public void addBecken(Becken beck) {
         becken.add(beck);
+    }
+
+    public void setOeffnungszeit(List<Oeffnungszeit> oeffnungszeit) {
+        this.oeffnungszeit = oeffnungszeit;
+    }
+
+    public List<Oeffnungszeit> getOeffnungszeit() {
+        return oeffnungszeit;
+    }
+
+    public void addOeffnungszeit (Oeffnungszeit zeit){
+        oeffnungszeit.add(zeit);
+    }
+
+    public void setPreis(List<Preis> preis) {
+        this.preis = preis;
+    }
+
+    public List<Preis> getPreis() {
+        return preis;
+    }
+
+    public void addPreis(Preis preise){
+
+        preis.add(preise);
     }
 }

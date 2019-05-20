@@ -57,7 +57,7 @@ public class BadiDetailsActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), BadiMoreDetailsActivity.class);
                 intent.putExtra("badiId", badiId );
-                intent.putExtra("badiId", badiName);
+                intent.putExtra("badiName", badiName);
                 startActivity(intent);
             }
         });
