@@ -93,6 +93,7 @@ public class Badi {
     }
 
     public void addPreis(Preis preise){
+
         preis.add(preise);
     }
 }

@@ -39,10 +39,12 @@ public class BadiMoreDetailsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_badi_more_details);
+        progressBar = findViewById(R.id.loading_badi_more_details_progress);
         setTitle("Mehr Infos");
         Intent intent = getIntent();
         badiId = intent.getIntExtra("badiId", 0);
         badiName = intent.getStringExtra("badiName");
+        progressBar.setVisibility(View.VISIBLE);
         getBadiPreis(WIE_WARM_API_URL + badiId);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {

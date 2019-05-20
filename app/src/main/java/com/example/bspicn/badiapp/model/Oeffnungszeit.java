@@ -6,7 +6,8 @@ public class Oeffnungszeit {
 
     @Override
     public String toString() {
-        return this.oeffnungszeit;
+        return oeffnungszeit;
+
     }
 
 
