@@ -1,46 +1,40 @@
 package com.example.bspicn.badiapp;
 
-
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Layout;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.Switch;
-
 import com.android.volley.toolbox.Volley;
+
 import com.example.bspicn.badiapp.dal.onBadiResponseListener;
 import com.example.bspicn.badiapp.model.Badi;
 import com.example.bspicn.badiapp.dal.BadiDao;
 
-
 public class MainActivity extends AppCompatActivity implements onBadiResponseListener {
-    ListView badis;
-    ListView kantonBadi;
-    String URL;
-    Spinner kantoneSpinner;
-    Button button2;
-    Button button3;
+
     private int badiId;
     private String badiName;
+    public int i;
+
+    Spinner kantoneSpinner;
+
+    Button button2;
+    Button button3;
+
     ArrayAdapter<Badi> badiAdapter;
     ArrayAdapter<Badi> kantonAdapter;
-
+    ArrayAdapter<String> ortAdapter;
     List<Badi> allBadis;
 
-
-    private static final String WIE_WARM_API_URL = "https://www.wiewarm.ch/api/v1/bad.json/";
-
+    ListView badis;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +48,6 @@ public class MainActivity extends AppCompatActivity implements onBadiResponseLis
         Intent intent = getIntent();
         badiId = intent.getIntExtra("badiId", 0);
         badiName = intent.getStringExtra("badiName");
-
 
         button3.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v) {
@@ -72,22 +65,20 @@ public class MainActivity extends AppCompatActivity implements onBadiResponseLis
         kantoneSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String selectedkanton;
 
                 //await for ascny function
-                if (position == 0 || allBadis == null) {
+                if (allBadis == null) {
                     return;
                 }
-
-                String selectedkanton;
 
                 badiAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1);
                 MainActivity.this.kantonAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1);
                 badiAdapter.addAll(allBadis);
 
-
                 switch (position) {
                     case 0:
-                        addBadisToClickableList();
+                        onSuccess(allBadis);
                         break;
                     case 1:
                         selectedkanton = "AG";
@@ -196,18 +187,12 @@ public class MainActivity extends AppCompatActivity implements onBadiResponseLis
                     default:
                         break;
                 }
-
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
                 System.out.println(parent);
             }
         });
-
-
-        spinnerOrt();
-
     }
 
     private void addBadisToClickableList() {
@@ -217,14 +202,10 @@ public class MainActivity extends AppCompatActivity implements onBadiResponseLis
     public void onSuccess(List<Badi> badisReceived) {
         badis = findViewById(R.id.badiliste);
         allBadis = badisReceived;
-
         ArrayAdapter<Badi> badiAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1);
-
         badiAdapter.addAll(badisReceived);
         badis.setAdapter(badiAdapter);
-
-        AdapterView.OnItemClickListener mListClickedHandler = new
-                AdapterView.OnItemClickListener() {
+        AdapterView.OnItemClickListener mListClickedHandler = new AdapterView.OnItemClickListener() {
                     public void onItemClick(AdapterView parent, View v, int position, long id) {
                         Intent intent = new Intent(getApplicationContext(), BadiDetailsActivity.class);
                         Badi selected = (Badi) parent.getItemAtPosition(position);
@@ -234,24 +215,48 @@ public class MainActivity extends AppCompatActivity implements onBadiResponseLis
                         startActivity(intent);
                     }
                 };
-
         badis.setOnItemClickListener(mListClickedHandler);
     }
 
-
     private void kanton(String selectedkanton) {
+      final  ArrayList<String> ortList = new ArrayList<>();
+        ortList.add("Ort Wählen");
+        final Spinner ortspinner = findViewById(R.id.ort);
         int j = 0;
-        int i = 0;
-        for (Badi badi : allBadis) {
-
+        i = 0;
+        for (final Badi badi : allBadis) {
             String kantones = badi.getKanton();
             if (kantones.equals(selectedkanton)) {
                 kantonAdapter.add(badiAdapter.getItem(i));
-
                 badis = findViewById(R.id.badiliste);
                 badis.setAdapter(kantonAdapter);
                 j++;
 
+                //OrtSpinner
+                ortList.add(badi.getOrt());
+
+                ortAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, ortList);
+                ortAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                ortspinner.setAdapter(ortAdapter);
+
+                ortspinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        ortList.get(position);
+                        System.out.println(ortList.get(position));
+                        for (Badi ortBadi: allBadis){
+                            String ortBadis = ortBadi.getOrt();
+                            if(ortBadis.equals(ortList.get(position))){
+                                // Probelm mit Orten
+                              kantonAdapter.add(badiAdapter.getItem(i));
+                              badis.setAdapter(kantonAdapter);
+                            }
+                        }
+                    }
+                    @Override
+                    public void onNothingSelected(AdapterView <?> parent) {
+                    }
+                });
             }
             i++;
         }
@@ -259,16 +264,6 @@ public class MainActivity extends AppCompatActivity implements onBadiResponseLis
             kantonAdapter.clear();
             badis.setAdapter(kantonAdapter);
         }
-
-
-    }
-
-    private void spinnerOrt() {
-        Spinner ortspinner = (Spinner) findViewById(R.id.ort);
-        ArrayAdapter<String> ortAdapter = new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.Ort));
-        ortAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        ortspinner.setAdapter((ortAdapter));
-
     }
 }
 

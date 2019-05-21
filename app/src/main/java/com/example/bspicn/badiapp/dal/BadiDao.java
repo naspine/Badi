@@ -64,11 +64,7 @@ public class BadiDao {
                     }
             );
          queue.add(objectRequest);
-
         }
-
-
-
        return availableBadis;
     }
 
