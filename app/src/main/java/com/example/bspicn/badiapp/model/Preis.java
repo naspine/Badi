@@ -1,17 +1,11 @@
 package com.example.bspicn.badiapp.model;
 
 public class Preis {
-     private String preis;
+    private String preis;
 
     @Override
     public String toString() {
-        if (preis == null){
-            return "Leider ist kein Preis vorhanden";
-        }
-        else{
-            return this.preis;
-        }
-
+        return this.preis;
     }
 
     public String getPreis() {

@@ -1,18 +1,22 @@
 package com.example.bspicn.badiapp;
 
 
+import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Layout;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.Switch;
 
 import com.android.volley.toolbox.Volley;
 import com.example.bspicn.badiapp.dal.onBadiResponseListener;
@@ -52,7 +56,7 @@ public class MainActivity extends AppCompatActivity implements onBadiResponseLis
         badiName = intent.getStringExtra("badiName");
 
 
-        button3.setOnClickListener(new View.OnClickListener() {
+        button3.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), MapsActivity.class);
                 button2.setClickable(true);
@@ -203,6 +207,7 @@ public class MainActivity extends AppCompatActivity implements onBadiResponseLis
 
 
         spinnerOrt();
+
     }
 
     private void addBadisToClickableList() {
@@ -225,6 +230,7 @@ public class MainActivity extends AppCompatActivity implements onBadiResponseLis
                         Badi selected = (Badi) parent.getItemAtPosition(position);
                         intent.putExtra("badiId", selected.getId());
                         intent.putExtra("badiName", selected.getName());
+                        intent.putExtra("ort", selected.getOrt());
                         startActivity(intent);
                     }
                 };

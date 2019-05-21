@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <ProgressBar
         android:id="@+id/loading_badi_details_progress"
@@ -13,23 +12,34 @@
         android:visibility="gone" />
 
     <ListView
+        android:id="@+id/becken_infos"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/becken_infos">
-    </ListView>
+        android:layout_height="wrap_content" />
 
     <Button
         android:id="@+id/button1"
-        android:textSize="20sp"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:text="Mehr Infos"
-        />
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/no_address"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="0dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="15dp"
+        android:text="Leider keine Addresse vefügbar."
+        android:textAlignment="center"
+        android:textSize="20sp"
+        android:visibility="gone" />
+
     <org.osmdroid.views.MapView
         android:id="@+id/mapview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
-
 
 
 </LinearLayout>

@@ -8,6 +8,7 @@ import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.ItemizedIconOverlay;
 
 import org.osmdroid.views.overlay.ItemizedOverlayWithFocus;
+import org.osmdroid.views.overlay.Marker;
 import org.osmdroid.views.overlay.OverlayItem;
 import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider;
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
@@ -26,54 +27,58 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
+
+import com.android.volley.toolbox.Volley;
+import com.example.bspicn.badiapp.dal.BadiDao;
+import com.example.bspicn.badiapp.dal.onBadiResponseListener;
+import com.example.bspicn.badiapp.model.Badi;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class MapsActivity extends AppCompatActivity {
+public class MapsActivity extends AppCompatActivity implements onBadiResponseListener {
+    private int badiId;
+    private String badiName;
     MapView map = null;
     MapView mMapView;
     Button button2;
     Button button3;
+    TextView infoDauer;
     ProgressBar progressBar;
     MyLocationNewOverlay mLocationOverlay;
+    double latitude;
+    double longitude;
+    String ort;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        //handle permissions first, before map is created. not depicted here
-
-        //load/initialize the osmdroid configuration, this can be done
-        Context ctx = getApplicationContext();
-        Configuration.getInstance().load(ctx, PreferenceManager.getDefaultSharedPreferences(ctx));
         //inflate and create the map
         setContentView(R.layout.activity_maps);
-
-
-        map = (MapView) findViewById(R.id.map);
-        map.setTileSource(TileSourceFactory.MAPNIK);
-        map.setMultiTouchControls(true);
-        IMapController mapController = map.getController();
-        mapController.setZoom(9.5);
-        GeoPoint startPoint = new GeoPoint(46.94827, 7.45145);
-        mapController.setCenter(startPoint);
-
-        //your items
-        ArrayList<OverlayItem> items = new ArrayList<OverlayItem>();
-        items.add(new OverlayItem("Freibad Heidelberg", "Aadorf", new GeoPoint(47.49158, 8.90295 ))); // Lat/Lon decimal degrees
+        infoDauer = findViewById(R.id.infoDauer);
+        progressBar = findViewById(R.id.loading_maps_progress);
 
 
         //Button Stuff
         button3 = findViewById(R.id.button3);
         button2 = findViewById(R.id.button2);
         setTitle("Übersicht Map");
+        infoDauer.setVisibility(View.VISIBLE);
+        infoDauer.setText("Die Standtorte der Bäder werden geladen, dies kann einen Moment dauern. ");
+
+        progressBar.setVisibility(View.VISIBLE);
+        addBadisToClickableList();
 
 
-        button2.setOnClickListener(new View.OnClickListener(){
+        button2.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(intent);
@@ -84,17 +89,71 @@ public class MapsActivity extends AppCompatActivity {
         });
     }
 
-    public void onResume(){
-        super.onResume();
-       map.onResume(); //needed for compass, my location overlays, v6.0.0 and up
+
+    private void addBadisToClickableList() {
+        BadiDao.getAll(Volley.newRequestQueue(getApplicationContext()), this);
     }
 
-    public void onPause(){
-        super.onPause();
-      map.onPause();  //needed for compass, my location overlays, v6.0.0 and up
+    public void onSuccess(List<Badi> badisReceived) {
+
+        List<Badi> b = badisReceived;
+        String adresse;
+
+        for (Badi badi : b) {
+            adresse = badi.getAdresses();
+            badiName = badi.getName();
+            ort = badi.getOrt();
+            Geocash(adresse);
+            System.out.println(badi.getId());
+
+        }
+        infoDauer.setVisibility(View.GONE);
+        progressBar.setVisibility(View.GONE);
+
+
     }
 
 
+    private void Geocash(String adress) {
+
+        Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+
+        try {
+            List<Address> addresses = geocoder.getFromLocationName(adress + " Schweiz", 1);
+            if (addresses.size() > 0) {
+                latitude = addresses.get(0).getLatitude();
+                longitude = addresses.get(0).getLongitude();
+            }
+            System.out.println("here1");
+        } catch (Exception e) {
+            System.out.println("here");
+        }
+
+
+        Context ctx = getApplicationContext();
+        Configuration.getInstance().load(ctx, PreferenceManager.getDefaultSharedPreferences(ctx));
+        //inflate and create the map
+
+
+        map = findViewById(R.id.map);
+        map.setTileSource(TileSourceFactory.MAPNIK);
+        map.setMultiTouchControls(true);
+        IMapController mapController = map.getController();
+        mapController.setZoom(8);
+        GeoPoint startPoint = new GeoPoint(latitude, longitude);
+        mapController.setCenter(startPoint);
+
+        //your items
+        ArrayList<OverlayItem> items = new ArrayList<OverlayItem>();
+        items.add(new OverlayItem(badiName, badiName, new GeoPoint(latitude, longitude))); // Lat/Lon decimal degrees
+
+
+        Marker startMarker = new Marker(map);
+        startMarker.setPosition(startPoint);
+        startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+        startMarker.setTitle(badiName + ", " + ort);
+        map.getOverlays().add(startMarker);
+    }
 
 
 }

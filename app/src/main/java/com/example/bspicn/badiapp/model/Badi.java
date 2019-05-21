@@ -9,17 +9,17 @@ public class Badi {
     private List<Becken> becken = new ArrayList<>();
     private List<Oeffnungszeit> oeffnungszeit = new ArrayList<>();
     private List<Preis> preis = new ArrayList<>();
-    //private List<Adresse> adresses = new ArrayList<>();
     private String adresses;
     private String kanton;
     private String ort;
 
 
-    public Badi(int id, String Name, String ort, String kanton) {
+    public Badi(int id, String Name, String ort, String kanton, String adresse1, String adresse2) {
         setId(id);
         setKanton(kanton);
         setName(Name);
         setOrt(ort);
+        setAdresses(ort + " " + kanton + " " + adresse1 + " " + adresse2);
     }
 
     public Badi() {
@@ -68,6 +68,7 @@ public class Badi {
     }
 
     public void setOrt(String ort) {
+
         this.ort = ort;
     }
 
@@ -100,12 +101,16 @@ public class Badi {
     }
 
     public String getAdresses() {
+
         return adresses;
     }
 
-    public void addAdress (Adresse adresse){
+    public void addAdress(Adresse adresse) {
         adresses = adresse.toString();
     }
 
+    public void setAdresses(String adresses) {
+        this.adresses = adresses;
+    }
 }
 

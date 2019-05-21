@@ -68,8 +68,7 @@ public class BadiMoreDetailsActivity extends AppCompatActivity {
         RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
-            public void onResponse(String response)
-            {
+            public void onResponse(String response) {
                 try {
                     Badi badi = WieWarmJsonParser.createBadiFromJsonString(response);
                     ZeitInfosAdapter.addAll(badi.getOeffnungszeit());
@@ -78,25 +77,26 @@ public class BadiMoreDetailsActivity extends AppCompatActivity {
                     zeitInfoList.setAdapter(ZeitInfosAdapter);
 
                     PreisInfosAdapter.addAll(badi.getPreis());
+
+
+
                     System.out.println(PreisInfosAdapter);
                     ListView preisInfoList = findViewById(R.id.preis);
                     preisInfoList.setAdapter(PreisInfosAdapter);
                     progressBar.setVisibility(View.GONE);
-                }
-                catch (JSONException e)
-                {
+                } catch (JSONException e) {
                     generateAlertDialog();
                 }
             }
-        }, new Response.ErrorListener(){
+        }, new Response.ErrorListener() {
             @Override
-            public void onErrorResponse(VolleyError error)
-            {
+            public void onErrorResponse(VolleyError error) {
                 generateAlertDialog();
             }
         });
         queue.add(stringRequest);
     }
+
     private void generateAlertDialog() {
         progressBar.setVisibility(View.GONE);
         AlertDialog.Builder dialogBuilder;
