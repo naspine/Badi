@@ -34,7 +34,7 @@ public class Badi {
         return ort;
     }
 
-    public String getKanton() {
+    public  String getKanton() {
         return kanton;
     }
 

@@ -68,4 +68,5 @@ public class BadiDao {
 
        return availableBadis;
     }
+
 }
