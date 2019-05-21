@@ -2,6 +2,7 @@ package com.example.bspicn.badiapp.helper;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.util.Iterator;
 
 import com.example.bspicn.badiapp.model.Adresse;
@@ -21,7 +22,6 @@ public class WieWarmJsonParser {
         badi.setName(jsonObj.getString("badname"));
         badi.setKanton(jsonObj.getString("kanton"));
         badi.setOrt(jsonObj.getString("ort"));
-
 
 
         JSONObject beckenJson = jsonObj.getJSONObject("becken");
@@ -50,7 +50,7 @@ public class WieWarmJsonParser {
             badi.addBecken(becken);
 
 
-
-        } return badi;
+        }
+        return badi;
     }
 }

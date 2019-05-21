@@ -14,7 +14,7 @@ public class Becken {
 
     @Override
     public String toString() {
-        return this.name +" "+ this.temperature;
+        return this.name + " " + this.temperature;
     }
 
     public void setName(String name) {

@@ -34,7 +34,8 @@ public class BadiMoreDetailsActivity extends AppCompatActivity {
     private String badiName;
     private ProgressBar progressBar;
 
-    private static final String WIE_WARM_API_URL = "https://www.wiewarm.ch:443/api/v1/temperature/all_current.json/0";
+    private static final String WIE_WARM_API_URL = "https://www.wiewarm.ch/api/v1/bad.json/";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,6 +52,7 @@ public class BadiMoreDetailsActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -68,8 +70,7 @@ public class BadiMoreDetailsActivity extends AppCompatActivity {
         RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
-            public void onResponse(String response)
-            {
+            public void onResponse(String response) {
                 try {
                     Badi badi = WieWarmJsonParser.createBadiFromJsonString(response);
                     ZeitInfosAdapter.addAll(badi.getOeffnungszeit());
@@ -78,25 +79,26 @@ public class BadiMoreDetailsActivity extends AppCompatActivity {
                     zeitInfoList.setAdapter(ZeitInfosAdapter);
 
                     PreisInfosAdapter.addAll(badi.getPreis());
+
+
+
                     System.out.println(PreisInfosAdapter);
                     ListView preisInfoList = findViewById(R.id.preis);
                     preisInfoList.setAdapter(PreisInfosAdapter);
                     progressBar.setVisibility(View.GONE);
-                }
-                catch (JSONException e)
-                {
+                } catch (JSONException e) {
                     generateAlertDialog();
                 }
             }
-        }, new Response.ErrorListener(){
+        }, new Response.ErrorListener() {
             @Override
-            public void onErrorResponse(VolleyError error)
-            {
+            public void onErrorResponse(VolleyError error) {
                 generateAlertDialog();
             }
         });
         queue.add(stringRequest);
     }
+
     private void generateAlertDialog() {
         progressBar.setVisibility(View.GONE);
         AlertDialog.Builder dialogBuilder;

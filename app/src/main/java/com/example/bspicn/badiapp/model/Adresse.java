@@ -41,10 +41,10 @@ public class Adresse {
 
     @Override
     public String toString() {
-        return ort + " "+kanton + " "+adresse1+ " "+ adresse2;
+        return ort + " " + kanton + " " + adresse1 + " " + adresse2;
     }
 
     public String getAdresse() {
-        return ort + " "+kanton + " "+adresse1+ " "+ adresse2 ;
+        return ort + " " + kanton + " " + adresse1 + " " + adresse2;
     }
 }

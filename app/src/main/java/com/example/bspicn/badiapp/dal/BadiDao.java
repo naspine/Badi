@@ -40,7 +40,10 @@ public class BadiDao {
                                 String badname = (String) response.get("badname");
                                 String ort = (String) response.get("ort");
                                 String kanton = (String) response.get("kanton");
-                                availableBadis.add(new Badi(badie,badname, ort, kanton));
+                                String adresse1 = (String) response.get("adresse1");
+                                String adresse2 = (String) response.get("adresse2");
+
+                                availableBadis.add(new Badi(badie,badname, ort, kanton, adresse1, adresse2));
 
                                 if (finished) {
                                     cb.onSuccess(availableBadis);
