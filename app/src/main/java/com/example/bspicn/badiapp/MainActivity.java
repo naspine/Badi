@@ -195,10 +195,6 @@ public class MainActivity extends AppCompatActivity implements onBadiResponseLis
         });
     }
 
-    private void addBadisToClickableList() {
-        BadiDao.getAll(Volley.newRequestQueue(getApplicationContext()), this);
-    }
-
     public void onSuccess(List<Badi> badisReceived) {
         badis = findViewById(R.id.badiliste);
         allBadis = badisReceived;
@@ -220,15 +216,16 @@ public class MainActivity extends AppCompatActivity implements onBadiResponseLis
 
     private void kanton(String selectedkanton) {
 
+        int j = 0;
+        int i = 0;
+
         final  ArrayList<String> ortStringList = new ArrayList<>();
         final ArrayList<Badi> ortListe = new ArrayList<>();
         final ArrayAdapter<Badi> ortListeAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1);
 
         ortStringList.add("Ort Wählen");
-
         final Spinner ortspinner = findViewById(R.id.ort);
-        int j = 0;
-        int i = 0;
+
         for (final Badi badi : allBadis) {
             String kantones = badi.getKanton();
             if (kantones.equals(selectedkanton)) {
@@ -237,10 +234,17 @@ public class MainActivity extends AppCompatActivity implements onBadiResponseLis
                 badis.setAdapter(kantonAdapter);
                 j++;
 
-                //OrtSpinner
-                ortStringList.add(badi.getOrt());
+                boolean duplicate = false;
+                for(int k =0;k < ortStringList.size(); k++){
+                    if(ortStringList.get(k).equals(badi.getOrt())) {
+                        duplicate = true;
+                    }
+                }
+                if (!duplicate) {
+                    ortStringList.add(badi.getOrt());
+                }
+                
                 ortListe.add(badi);
-
 
                 ortAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, ortStringList);
                 ortAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -272,12 +276,17 @@ public class MainActivity extends AppCompatActivity implements onBadiResponseLis
                 });
             }
             i++;
-        }
 
-        if(j==0){
+        }
+        if(j==0) {
             kantonAdapter.clear();
             badis.setAdapter(kantonAdapter);
         }
+    }
+
+
+    private void addBadisToClickableList() {
+        BadiDao.getAll(Volley.newRequestQueue(getApplicationContext()), this);
     }
 }
 
