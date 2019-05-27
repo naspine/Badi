@@ -38,6 +38,7 @@ public class BadiMoreDetailsActivity extends AppCompatActivity {
     private ProgressBar progressBar;
 
     private static final String WIE_WARM_API_URL = "https://www.wiewarm.ch/api/v1/bad.json/";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +55,7 @@ public class BadiMoreDetailsActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -81,11 +83,11 @@ public class BadiMoreDetailsActivity extends AppCompatActivity {
 
                     PreisInfosAdapter.addAll(badi.getPreis());
 
-                    if(badi.getPreis().size()==0){
+                    if (badi.getPreis().size() == 0) {
                         System.out.println("----------------------------------------------");
                     }
 
-                    if (badi.getOeffnungszeit().size()==0){
+                    if (badi.getOeffnungszeit().size() == 0) {
 
                     }
 

@@ -2,6 +2,7 @@ package com.example.bspicn.badiapp.model;
 
 import java.util.Objects;
 
+
 public class Becken {
     private String name;
     private double temperature;
@@ -31,5 +32,17 @@ public class Becken {
         return temperature;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        Becken becken = (Becken) obj;
 
+        return Objects.equals(getName(), becken.name) &&
+                Objects.equals(getTemperatur(), becken.temperature);
+    }
+
+    public boolean beckenEquals(Object p) {
+        Becken becken = (Becken) p;
+        return getName() == becken.name &&
+                Objects.equals(getTemperatur(), becken.temperature);
+    }
 }

@@ -35,7 +35,7 @@ public class Badi {
         return ort;
     }
 
-    public  String getKanton() {
+    public String getKanton() {
         return kanton;
     }
 
@@ -117,21 +117,15 @@ public class Badi {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Badi badi = (Badi) o;
+
         return id == badi.id &&
                 Objects.equals(name, badi.name) &&
-                //beckenEquals(badi.becken) &&
-                Objects.equals(oeffnungszeit, badi.oeffnungszeit) &&
-                Objects.equals(preis, badi.preis) &&
-                Objects.equals(adresses, badi.adresses) &&
+                becken.equals(badi.becken) &&
                 Objects.equals(kanton, badi.kanton) &&
                 Objects.equals(ort, badi.ort);
     }
 
-  /* public boolean beckenEquals(Object p) {
-        Becken becken = (Becken) p;
-        return name == becken.name &&
-                Objects.equals(temperature, becken.temperature);
-    }
-*/
+
+
 }
 
