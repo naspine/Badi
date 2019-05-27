@@ -32,8 +32,8 @@ public class MainActivity extends AppCompatActivity implements onBadiResponseLis
 
     Spinner kantoneSpinner;
 
-    Button button2;
-    Button button3;
+    Button btnAlleBadis;
+    Button btnKarte;
 
     ArrayAdapter<Badi> badiAdapter;
     ArrayAdapter<Badi> kantonAdapter;
@@ -50,8 +50,8 @@ public class MainActivity extends AppCompatActivity implements onBadiResponseLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         progressBar = findViewById(R.id.loading_main_progress);
-        button3 = findViewById(R.id.btnKarte);
-        button2 = findViewById(R.id.btnAlleBadis);
+        btnKarte= findViewById(R.id.btnKarte);
+        btnAlleBadis= findViewById(R.id.btnAlleBadis);
         noBadis = findViewById(R.id.noBadis);
 
 
@@ -64,12 +64,12 @@ public class MainActivity extends AppCompatActivity implements onBadiResponseLis
         badiName = intent.getStringExtra("badiName");
 
 
-        button3.setOnClickListener(new View.OnClickListener() {
+        btnKarte.setOnClickListener(new View.OnClickListener() {
 
          public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), MapsActivity.class);
-                button2.setClickable(true);
-                button3.setClickable(false);
+                btnAlleBadis.setClickable(true);
+                btnKarte.setClickable(false);
                 startActivity(intent);
             }
         });
