@@ -29,11 +29,4 @@
         <item>Zürich</item>
         <item>Zug</item>
     </string-array>
-    <string-array name="Ort">
-        <item>Ort wählen</item>
-
-    </string-array>
-    <string-array name="Badiname">
-        <item>Name wählen</item>
-    </string-array>
 </resources>
