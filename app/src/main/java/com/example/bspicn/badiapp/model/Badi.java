@@ -2,6 +2,7 @@ package com.example.bspicn.badiapp.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Badi {
     private int id;
@@ -68,7 +69,6 @@ public class Badi {
     }
 
     public void setOrt(String ort) {
-
         this.ort = ort;
     }
 
@@ -101,7 +101,6 @@ public class Badi {
     }
 
     public String getAdresses() {
-
         return adresses;
     }
 
@@ -112,5 +111,27 @@ public class Badi {
     public void setAdresses(String adresses) {
         this.adresses = adresses;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Badi badi = (Badi) o;
+        return id == badi.id &&
+                Objects.equals(name, badi.name) &&
+                //beckenEquals(badi.becken) &&
+                Objects.equals(oeffnungszeit, badi.oeffnungszeit) &&
+                Objects.equals(preis, badi.preis) &&
+                Objects.equals(adresses, badi.adresses) &&
+                Objects.equals(kanton, badi.kanton) &&
+                Objects.equals(ort, badi.ort);
+    }
+
+  /* public boolean beckenEquals(Object p) {
+        Becken becken = (Becken) p;
+        return name == becken.name &&
+                Objects.equals(temperature, becken.temperature);
+    }
+*/
 }
 

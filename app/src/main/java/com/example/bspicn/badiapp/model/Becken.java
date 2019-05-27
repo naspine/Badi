@@ -1,5 +1,7 @@
 package com.example.bspicn.badiapp.model;
 
+import java.util.Objects;
+
 public class Becken {
     private String name;
     private double temperature;
@@ -28,5 +30,6 @@ public class Becken {
     public double getTemperature() {
         return temperature;
     }
+
 
 }

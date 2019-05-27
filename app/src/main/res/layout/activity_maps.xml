@@ -12,7 +12,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <Button
-                android:id="@+id/button2"
+                android:id="@+id/btnAlleBadisMap"
                 android:textSize="20sp"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -22,7 +22,7 @@
                 android:background="#787878"
                 />
             <Button
-                android:id="@+id/button3"
+                android:id="@+id/btnKarteMap"
                 android:textSize="20sp"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"

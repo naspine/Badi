@@ -17,14 +17,14 @@
         android:layout_height="wrap_content" />
 
     <Button
-        android:id="@+id/button1"
+        android:id="@+id/bntMehrInfos"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:text="Mehr Infos"
         android:textSize="20sp" />
 
     <TextView
-        android:id="@+id/no_address"
+        android:id="@+id/noAddress"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="0dp"
