@@ -1,22 +1,22 @@
 package com.example.bspicn.badiapp;
 
 
-import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Layout;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
-import android.widget.Switch;
+import android.widget.TextView;
 
 import com.android.volley.toolbox.Volley;
 import com.example.bspicn.badiapp.dal.onBadiResponseListener;
@@ -35,6 +35,8 @@ public class MainActivity extends AppCompatActivity implements onBadiResponseLis
     private String badiName;
     ArrayAdapter<Badi> badiAdapter;
     ArrayAdapter<Badi> kantonAdapter;
+    TextView noBadis;
+    ProgressBar progressBar;
 
     List<Badi> allBadis;
 
@@ -46,17 +48,22 @@ public class MainActivity extends AppCompatActivity implements onBadiResponseLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        progressBar = findViewById(R.id.loading_main_progress);
+        button3 = findViewById(R.id.btnKarte);
+        button2 = findViewById(R.id.btnAlleBadis);
+        noBadis = findViewById(R.id.noBadis);
 
-        button3 = findViewById(R.id.button3);
-        button2 = findViewById(R.id.button2);
-        setTitle("Übersicht");
+
+        setTitle("Bädälä");
+
+        progressBar.setVisibility(View.VISIBLE);
         addBadisToClickableList();
         Intent intent = getIntent();
         badiId = intent.getIntExtra("badiId", 0);
         badiName = intent.getStringExtra("badiName");
 
 
-        button3.setOnClickListener(new View.OnClickListener(){
+        button3.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), MapsActivity.class);
                 button2.setClickable(true);
@@ -72,6 +79,7 @@ public class MainActivity extends AppCompatActivity implements onBadiResponseLis
         kantoneSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                noBadis.setVisibility(View.GONE);
 
                 //await for ascny function
                 if (position == 0 || allBadis == null) {
@@ -236,6 +244,7 @@ public class MainActivity extends AppCompatActivity implements onBadiResponseLis
                 };
 
         badis.setOnItemClickListener(mListClickedHandler);
+        progressBar.setVisibility(View.GONE);
     }
 
 
@@ -255,9 +264,11 @@ public class MainActivity extends AppCompatActivity implements onBadiResponseLis
             }
             i++;
         }
-        if(j==0){
+        if (j == 0) {
             kantonAdapter.clear();
             badis.setAdapter(kantonAdapter);
+            noBadis.setVisibility(View.VISIBLE);
+            noBadis.setText("Es sind keine Badis vorhanden.");
         }
 
 
@@ -269,6 +280,22 @@ public class MainActivity extends AppCompatActivity implements onBadiResponseLis
         ortAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         ortspinner.setAdapter((ortAdapter));
 
+    }
+
+
+    private void generateAlertDialog() {
+        progressBar.setVisibility(View.GONE);
+        AlertDialog.Builder dialogBuilder;
+        dialogBuilder = new AlertDialog.Builder(this);
+        dialogBuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                // Closes this activity
+                finish();
+            }
+        });
+        dialogBuilder.setMessage("Die Badidetails konnten nicht geladen werden. Versuche es später nochmals.").setTitle("Fehler");
+        AlertDialog dialog = dialogBuilder.create();
+        dialog.show();
     }
 }
 

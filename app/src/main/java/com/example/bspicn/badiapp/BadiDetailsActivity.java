@@ -4,7 +4,6 @@ package com.example.bspicn.badiapp;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Point;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
@@ -33,14 +32,10 @@ import com.example.bspicn.badiapp.model.Becken;
 
 import org.json.JSONException;
 import org.osmdroid.api.IMapController;
-import org.osmdroid.api.IMapView;
 import org.osmdroid.config.Configuration;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
-import org.osmdroid.views.overlay.ItemizedIconOverlay;
-import org.osmdroid.views.overlay.ItemizedOverlay;
-import org.osmdroid.views.overlay.ItemizedOverlayWithFocus;
 import org.osmdroid.views.overlay.Marker;
 import org.osmdroid.views.overlay.OverlayItem;
 
@@ -71,7 +66,7 @@ public class BadiDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_badi_details);
 
-        button = findViewById(R.id.button1);
+        button = findViewById(R.id.bntMehrInfos);
         progressBar = findViewById(R.id.loading_badi_details_progress);
         Intent intent = getIntent();
         badiId = intent.getIntExtra("badiId", 0);
@@ -80,6 +75,8 @@ public class BadiDetailsActivity extends AppCompatActivity {
         final String name = intent.getStringExtra("badiName");
         setTitle(name);
         progressBar.setVisibility(View.VISIBLE);
+
+        //Badi Temperatur ausgeben.
         getBadiTemp(WIE_WARM_API_URL + badiId);
 
 
@@ -89,6 +86,8 @@ public class BadiDetailsActivity extends AppCompatActivity {
         }
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+
+                //badiID und Badiname weitergeben.
                 Intent intent = new Intent(getApplicationContext(), BadiMoreDetailsActivity.class);
                 intent.putExtra("badiId", badiId);
                 intent.putExtra("badiName", badiName);
@@ -98,8 +97,9 @@ public class BadiDetailsActivity extends AppCompatActivity {
 
     }
 
-    private void Geocash(String adress) {
-        textView = findViewById(R.id.no_address);
+    //Adresse zu Koordinaten umändern.
+    private void geocash(String adress) {
+        textView = findViewById(R.id.noAddress);
         Geocoder geocoder = new Geocoder(this, Locale.getDefault());
 
         try {
@@ -119,6 +119,7 @@ public class BadiDetailsActivity extends AppCompatActivity {
         Configuration.getInstance().load(ctx, PreferenceManager.getDefaultSharedPreferences(ctx));
         //inflate and create the map
 
+        //Punkt vorbereiten um auf Map anzuzeigen.
         map = (MapView) findViewById(R.id.mapview);
         map.setTileSource(TileSourceFactory.MAPNIK);
         map.setMultiTouchControls(true);
@@ -134,11 +135,11 @@ public class BadiDetailsActivity extends AppCompatActivity {
         } else {
             textView.setVisibility(View.GONE);
 
-
             //your items
             ArrayList<OverlayItem> items = new ArrayList<OverlayItem>();
             items.add(new OverlayItem(badiName, badiName, new GeoPoint(latitude, longitude))); // Lat/Lon decimal degrees
 
+            //Punkt auf Map anzeigen lassen mit Badiname und ort.
             Marker startMarker = new Marker(map);
             startMarker.setPosition(startPoint);
             startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
@@ -147,6 +148,7 @@ public class BadiDetailsActivity extends AppCompatActivity {
         }
     }
 
+    //Badi Temperatur ausgeben.
     private void getBadiTemp(String url) {
         final ArrayAdapter<Adresse> adressenInfosAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1);
         final ArrayAdapter<Becken> beckenInfosAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1);
@@ -164,9 +166,10 @@ public class BadiDetailsActivity extends AppCompatActivity {
                     badiInfoList.setAdapter(beckenInfosAdapter);
                     progressBar.setVisibility(View.GONE);
 
+                    //Adresse in die Funktion Geochash übergeben.
                     adresseGeo = badi.getAdresses();
 
-                    Geocash(adresseGeo);
+                    geocash(adresseGeo);
                     progressBar.setVisibility(View.GONE);
 
                 } catch (JSONException e) {
@@ -194,6 +197,7 @@ public class BadiDetailsActivity extends AppCompatActivity {
                 finish();
             }
         });
+        //Ausgabe Fehlermeldung
         dialogBuilder.setMessage("Die Badidetails konnten nicht geladen werden. Versuche es später nochmals.").setTitle("Fehler");
         AlertDialog dialog = dialogBuilder.create();
         dialog.show();

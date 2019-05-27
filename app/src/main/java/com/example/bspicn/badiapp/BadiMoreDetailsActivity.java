@@ -28,6 +28,9 @@ import com.example.bspicn.badiapp.model.Preis;
 
 import org.json.JSONException;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class BadiMoreDetailsActivity extends AppCompatActivity {
 
     private int badiId;
@@ -78,7 +81,13 @@ public class BadiMoreDetailsActivity extends AppCompatActivity {
 
                     PreisInfosAdapter.addAll(badi.getPreis());
 
+                    if(badi.getPreis().size()==0){
+                        System.out.println("----------------------------------------------");
+                    }
 
+                    if (badi.getOeffnungszeit().size()==0){
+
+                    }
 
                     System.out.println(PreisInfosAdapter);
                     ListView preisInfoList = findViewById(R.id.preis);

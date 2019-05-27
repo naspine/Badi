@@ -5,7 +5,7 @@
     android:orientation="vertical">
 
     <ProgressBar
-        android:id="@+id/loading_badi_details_progress"
+        android:id="@+id/loading_main_progress"
         android:layout_width="50dp"
         android:layout_height="match_parent"
         android:layout_gravity="center"
@@ -17,7 +17,7 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/btnAlleBadis"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -27,13 +27,13 @@
             android:textSize="20sp" />
 
         <Button
-            android:id="@+id/button3"
+            android:id="@+id/btnKarte"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="#787878"
             android:clickable="false"
-            android:text="Maps"
+            android:text="Karte"
             android:textSize="20sp" />
     </LinearLayout>
 
@@ -58,6 +58,19 @@
 
 
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/noBadis"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="0dp"
+        android:visibility="gone"
+        android:textAlignment="center"/>
+
 
     <ListView
         android:id="@+id/badiliste"

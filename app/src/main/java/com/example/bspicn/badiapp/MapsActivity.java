@@ -5,12 +5,9 @@ import org.osmdroid.config.Configuration;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
-import org.osmdroid.views.overlay.ItemizedIconOverlay;
 
-import org.osmdroid.views.overlay.ItemizedOverlayWithFocus;
 import org.osmdroid.views.overlay.Marker;
 import org.osmdroid.views.overlay.OverlayItem;
-import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider;
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 
 import android.content.Context;
@@ -19,18 +16,11 @@ import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
 import android.preference.PreferenceManager;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -48,8 +38,8 @@ public class MapsActivity extends AppCompatActivity implements onBadiResponseLis
     private String badiName;
     MapView map = null;
     MapView mMapView;
-    Button button2;
-    Button button3;
+    Button btnKarteMap;
+    Button btnAlleBadisMap;
     TextView infoDauer;
     ProgressBar progressBar;
     MyLocationNewOverlay mLocationOverlay;
@@ -68,9 +58,9 @@ public class MapsActivity extends AppCompatActivity implements onBadiResponseLis
 
 
         //Button Stuff
-        button3 = findViewById(R.id.button3);
-        button2 = findViewById(R.id.button2);
-        setTitle("Übersicht Map");
+        btnAlleBadisMap = findViewById(R.id.btnKarteMap);
+        btnKarteMap = findViewById(R.id.btnAlleBadisMap);
+        setTitle("Bädälä");
         infoDauer.setVisibility(View.VISIBLE);
         infoDauer.setText("Die Standtorte der Bäder werden geladen, dies kann einen Moment dauern. ");
 
@@ -78,12 +68,12 @@ public class MapsActivity extends AppCompatActivity implements onBadiResponseLis
         addBadisToClickableList();
 
 
-        button2.setOnClickListener(new View.OnClickListener() {
+        btnKarteMap.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(intent);
-                button3.setClickable(false);
-                button2.setClickable(true);
+                btnAlleBadisMap.setClickable(false);
+                btnKarteMap.setClickable(true);
 
             }
         });
@@ -103,7 +93,7 @@ public class MapsActivity extends AppCompatActivity implements onBadiResponseLis
             adresse = badi.getAdresses();
             badiName = badi.getName();
             ort = badi.getOrt();
-            Geocash(adresse);
+            geocash(adresse);
             System.out.println(badi.getId());
 
         }
@@ -114,7 +104,7 @@ public class MapsActivity extends AppCompatActivity implements onBadiResponseLis
     }
 
 
-    private void Geocash(String adress) {
+    private void geocash(String adress) {
 
         Geocoder geocoder = new Geocoder(this, Locale.getDefault());
 
@@ -124,17 +114,16 @@ public class MapsActivity extends AppCompatActivity implements onBadiResponseLis
                 latitude = addresses.get(0).getLatitude();
                 longitude = addresses.get(0).getLongitude();
             }
-            System.out.println("here1");
         } catch (Exception e) {
-            System.out.println("here");
+            generateAlertDialog();
+
         }
 
 
         Context ctx = getApplicationContext();
         Configuration.getInstance().load(ctx, PreferenceManager.getDefaultSharedPreferences(ctx));
-        //inflate and create the map
 
-
+        //Map kreieren und Kartenausschnitt bestimmen
         map = findViewById(R.id.map);
         map.setTileSource(TileSourceFactory.MAPNIK);
         map.setMultiTouchControls(true);
@@ -143,11 +132,11 @@ public class MapsActivity extends AppCompatActivity implements onBadiResponseLis
         GeoPoint startPoint = new GeoPoint(latitude, longitude);
         mapController.setCenter(startPoint);
 
-        //your items
+        //Item
         ArrayList<OverlayItem> items = new ArrayList<OverlayItem>();
-        items.add(new OverlayItem(badiName, badiName, new GeoPoint(latitude, longitude))); // Lat/Lon decimal degrees
+        items.add(new OverlayItem(badiName, badiName, new GeoPoint(latitude, longitude)));
 
-
+        //PUnkt anzeigen mit Badiname und Ort
         Marker startMarker = new Marker(map);
         startMarker.setPosition(startPoint);
         startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
@@ -155,5 +144,20 @@ public class MapsActivity extends AppCompatActivity implements onBadiResponseLis
         map.getOverlays().add(startMarker);
     }
 
+
+    private void generateAlertDialog() {
+        progressBar.setVisibility(View.GONE);
+        AlertDialog.Builder dialogBuilder;
+        dialogBuilder = new AlertDialog.Builder(this);
+        dialogBuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                // Closes this activity
+                finish();
+            }
+        });
+        dialogBuilder.setMessage("Die Badis konnten nicht geladen werden. Versuchens Sie es später noch einmal").setTitle("Fehler");
+        AlertDialog dialog = dialogBuilder.create();
+        dialog.show();
+    }
 
 }
