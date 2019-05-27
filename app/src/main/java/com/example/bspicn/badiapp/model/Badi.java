@@ -119,12 +119,19 @@ public class Badi {
         Badi badi = (Badi) o;
         return id == badi.id &&
                 Objects.equals(name, badi.name) &&
-                Objects.equals(becken, badi.becken) &&
+                //beckenEquals(badi.becken) &&
                 Objects.equals(oeffnungszeit, badi.oeffnungszeit) &&
                 Objects.equals(preis, badi.preis) &&
                 Objects.equals(adresses, badi.adresses) &&
                 Objects.equals(kanton, badi.kanton) &&
                 Objects.equals(ort, badi.ort);
     }
+
+  /* public boolean beckenEquals(Object p) {
+        Becken becken = (Becken) p;
+        return name == becken.name &&
+                Objects.equals(temperature, becken.temperature);
+    }
+*/
 }
 

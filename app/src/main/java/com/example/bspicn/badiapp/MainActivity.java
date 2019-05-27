@@ -303,14 +303,6 @@ public class MainActivity extends AppCompatActivity implements onBadiResponseLis
 
     }
 
-    private void spinnerOrt() {
-        Spinner ortspinner = (Spinner) findViewById(R.id.ort);
-        ArrayAdapter<String> ortAdapter = new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.Ort));
-        ortAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        ortspinner.setAdapter((ortAdapter));
-
-    }
-
 
     private void generateAlertDialog() {
         progressBar.setVisibility(View.GONE);
