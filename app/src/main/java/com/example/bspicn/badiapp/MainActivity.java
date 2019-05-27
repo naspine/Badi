@@ -219,11 +219,16 @@ public class MainActivity extends AppCompatActivity implements onBadiResponseLis
     }
 
     private void kanton(String selectedkanton) {
-      final  ArrayList<String> ortList = new ArrayList<>();
-        ortList.add("Ort Wählen");
+
+        final  ArrayList<String> ortStringList = new ArrayList<>();
+        final ArrayList<Badi> ortListe = new ArrayList<>();
+        final ArrayAdapter<Badi> ortListeAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1);
+
+        ortStringList.add("Ort Wählen");
+
         final Spinner ortspinner = findViewById(R.id.ort);
         int j = 0;
-        i = 0;
+        int i = 0;
         for (final Badi badi : allBadis) {
             String kantones = badi.getKanton();
             if (kantones.equals(selectedkanton)) {
@@ -233,25 +238,33 @@ public class MainActivity extends AppCompatActivity implements onBadiResponseLis
                 j++;
 
                 //OrtSpinner
-                ortList.add(badi.getOrt());
+                ortStringList.add(badi.getOrt());
+                ortListe.add(badi);
 
-                ortAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, ortList);
+
+                ortAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, ortStringList);
                 ortAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 ortspinner.setAdapter(ortAdapter);
 
                 ortspinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+                    //OrtSpinnerListeItems
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        ortList.get(position);
-                        System.out.println(ortList.get(position));
+
+                        if (id == 0) {
+                            return;
+                        }
+                        ortListeAdapter.clear();
+
                         for (Badi ortBadi: allBadis){
                             String ortBadis = ortBadi.getOrt();
-                            if(ortBadis.equals(ortList.get(position))){
-                                // Probelm mit Orten
-                              kantonAdapter.add(badiAdapter.getItem(i));
-                              badis.setAdapter(kantonAdapter);
+
+                            if(ortBadis.equals(ortStringList.get(position))){
+                                ortListeAdapter.add(ortBadi);
                             }
                         }
+                        badis.setAdapter(ortListeAdapter);
                     }
                     @Override
                     public void onNothingSelected(AdapterView <?> parent) {
@@ -260,6 +273,7 @@ public class MainActivity extends AppCompatActivity implements onBadiResponseLis
             }
             i++;
         }
+
         if(j==0){
             kantonAdapter.clear();
             badis.setAdapter(kantonAdapter);
