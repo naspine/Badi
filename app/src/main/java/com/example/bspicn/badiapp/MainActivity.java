@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity implements onBadiResponseLis
 
     Spinner kantoneSpinner;
 
+
     Button btnAlleBadis;
     Button btnKarte;
 
@@ -50,8 +51,8 @@ public class MainActivity extends AppCompatActivity implements onBadiResponseLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         progressBar = findViewById(R.id.loading_main_progress);
-        btnKarte= findViewById(R.id.btnKarte);
-        btnAlleBadis= findViewById(R.id.btnAlleBadis);
+        btnKarte = findViewById(R.id.btnKarte);
+        btnAlleBadis = findViewById(R.id.btnAlleBadis);
         noBadis = findViewById(R.id.noBadis);
 
 
@@ -66,7 +67,7 @@ public class MainActivity extends AppCompatActivity implements onBadiResponseLis
 
         btnKarte.setOnClickListener(new View.OnClickListener() {
 
-         public void onClick(View v) {
+            public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), MapsActivity.class);
                 btnAlleBadis.setClickable(true);
                 btnKarte.setClickable(false);
@@ -205,6 +206,7 @@ public class MainActivity extends AppCompatActivity implements onBadiResponseLis
                         break;
                 }
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
                 System.out.println(parent);
@@ -219,15 +221,15 @@ public class MainActivity extends AppCompatActivity implements onBadiResponseLis
         badiAdapter.addAll(badisReceived);
         badis.setAdapter(badiAdapter);
         AdapterView.OnItemClickListener mListClickedHandler = new AdapterView.OnItemClickListener() {
-                    public void onItemClick(AdapterView parent, View v, int position, long id) {
-                        Intent intent = new Intent(getApplicationContext(), BadiDetailsActivity.class);
-                        Badi selected = (Badi) parent.getItemAtPosition(position);
-                        intent.putExtra("badiId", selected.getId());
-                        intent.putExtra("badiName", selected.getName());
-                        intent.putExtra("ort", selected.getOrt());
-                        startActivity(intent);
-                    }
-                };
+            public void onItemClick(AdapterView parent, View v, int position, long id) {
+                Intent intent = new Intent(getApplicationContext(), BadiDetailsActivity.class);
+                Badi selected = (Badi) parent.getItemAtPosition(position);
+                intent.putExtra("badiId", selected.getId());
+                intent.putExtra("badiName", selected.getName());
+                intent.putExtra("ort", selected.getOrt());
+                startActivity(intent);
+            }
+        };
         badis.setOnItemClickListener(mListClickedHandler);
         progressBar.setVisibility(View.GONE);
     }
@@ -237,12 +239,15 @@ public class MainActivity extends AppCompatActivity implements onBadiResponseLis
         int j = 0;
         int i = 0;
 
-        final  ArrayList<String> ortStringList = new ArrayList<>();
+        final ArrayList<String> ortStringList = new ArrayList<>();
         final ArrayList<Badi> ortListe = new ArrayList<>();
         final ArrayAdapter<Badi> ortListeAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1);
 
         ortStringList.add("Ort Wählen");
+
+
         final Spinner ortspinner = findViewById(R.id.ort);
+        ortspinner.setEnabled(true);
 
         for (final Badi badi : allBadis) {
             String kantones = badi.getKanton();
@@ -253,8 +258,8 @@ public class MainActivity extends AppCompatActivity implements onBadiResponseLis
                 j++;
 
                 boolean duplicate = false;
-                for(int k =0;k < ortStringList.size(); k++){
-                    if(ortStringList.get(k).equals(badi.getOrt())) {
+                for (int k = 0; k < ortStringList.size(); k++) {
+                    if (ortStringList.get(k).equals(badi.getOrt())) {
                         duplicate = true;
                     }
                 }
@@ -274,33 +279,43 @@ public class MainActivity extends AppCompatActivity implements onBadiResponseLis
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
+                        if (ortspinner.getSelectedItemId() == 0) {
+                            badis.setAdapter(kantonAdapter);
+                        }
+
                         if (id == 0) {
                             return;
                         }
                         ortListeAdapter.clear();
 
-                        for (Badi ortBadi: allBadis){
+                        for (Badi ortBadi : allBadis) {
                             String ortBadis = ortBadi.getOrt();
 
-                            if(ortBadis.equals(ortStringList.get(position))){
+                            if (ortBadis.equals(ortStringList.get(position))) {
                                 ortListeAdapter.add(ortBadi);
                             }
                         }
                         badis.setAdapter(ortListeAdapter);
                     }
+
                     @Override
-                    public void onNothingSelected(AdapterView <?> parent) {
+                    public void onNothingSelected(AdapterView<?> parent) {
+                        System.out.println(parent);
                     }
                 });
             }
             i++;
 
         }
-        if(j==0) {
+
+        if (j == 0) {
+            ortAdapter.clear();
             kantonAdapter.clear();
             badis.setAdapter(kantonAdapter);
+            ortspinner.setAdapter(ortListeAdapter);
             noBadis.setVisibility(View.VISIBLE);
             noBadis.setText("Es sind keine Badis vorhanden.");
+            ortspinner.setEnabled(false);
         }
 
 
