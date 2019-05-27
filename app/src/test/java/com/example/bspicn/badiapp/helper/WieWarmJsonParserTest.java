@@ -26,13 +26,16 @@ public class WieWarmJsonParserTest {
         badi.setKanton("BE");
         badi.setOrt("Burgdorf");
 
+        Becken becken2 = new Becken();
+        becken2.setTemperature(27.0);
+        becken2.setName("Hallenbad");
+        badi.addBecken(becken2);
+
         Becken becken = new Becken();
         becken.setTemperature(20.5);
         becken.setName("Schwimmbecken");
         badi.addBecken(becken);
 
-        becken.setTemperature(27.0);
-        becken.setName("Hallenbad");
 
         return badi;
     }

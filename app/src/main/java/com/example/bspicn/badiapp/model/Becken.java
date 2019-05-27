@@ -36,13 +36,8 @@ public class Becken {
     public boolean equals(Object obj) {
         Becken becken = (Becken) obj;
 
-        return Objects.equals(getName(), becken.name) &&
-                Objects.equals(getTemperatur(), becken.temperature);
+        return Objects.equals(name, becken.name) &&
+                Objects.equals(temperature, becken.temperature);
     }
 
-    public boolean beckenEquals(Object p) {
-        Becken becken = (Becken) p;
-        return getName() == becken.name &&
-                Objects.equals(getTemperatur(), becken.temperature);
-    }
 }
